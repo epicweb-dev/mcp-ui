@@ -48,12 +48,6 @@ function sendMcpMessage<Options extends MessageOptions>(
 	options?: Options,
 ): McpMessageReturnType<Options>
 
-function sendMcpMessage<Options extends MessageOptions>(
-	type: 'link',
-	payload: McpMessageTypes['link'],
-	options?: Options,
-): McpMessageReturnType<Options>
-
 function sendMcpMessage(
 	type: McpMessageType,
 	payload: McpMessageTypes[McpMessageType],
