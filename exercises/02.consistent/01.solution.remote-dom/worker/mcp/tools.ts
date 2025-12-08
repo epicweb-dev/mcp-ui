@@ -239,7 +239,7 @@ export async function initializeTools(agent: EpicMeMCP) {
 		async ({ id }) => {
 			return {
 				content: [
-					createUIResource({
+					await createUIResource({
 						uri: `ui://view-tag/${id}`,
 						content: {
 							type: 'remoteDom',

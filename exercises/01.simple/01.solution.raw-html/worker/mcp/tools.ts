@@ -248,7 +248,7 @@ export async function initializeTools(agent: EpicMeMCP) {
 
 			return {
 				content: [
-					createUIResource({
+					await createUIResource({
 						uri: `ui://view-tag/${id}`,
 						content: {
 							type: 'rawHtml',

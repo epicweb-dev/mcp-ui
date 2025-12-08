@@ -12,7 +12,7 @@ Example:
 import { createUIResource } from '@mcp-ui/server'
 
 // Create a UI resource with raw HTML
-const resource = createUIResource({
+const resource = await createUIResource({
 	uri: 'ui://weather-card/lagos-nigeria',
 	content: {
 		type: 'rawHtml',

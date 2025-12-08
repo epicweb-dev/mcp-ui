@@ -75,7 +75,7 @@ export async function initializeTools(agent: EpicMeMCP) {
 
 			return {
 				content: [
-					createUIResource({
+					await createUIResource({
 						uri: `ui://view-journal/${Date.now()}`,
 						content: {
 							type: 'externalUrl',
@@ -270,7 +270,7 @@ export async function initializeTools(agent: EpicMeMCP) {
 		async ({ id }) => {
 			return {
 				content: [
-					createUIResource({
+					await createUIResource({
 						uri: `ui://view-tag/${id}`,
 						content: {
 							type: 'rawHtml',
@@ -466,7 +466,7 @@ export async function initializeTools(agent: EpicMeMCP) {
 
 			return {
 				content: [
-					createUIResource({
+					await createUIResource({
 						uri: `ui://view-entry/${id}`,
 						content: {
 							type: 'externalUrl',

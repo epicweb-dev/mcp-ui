@@ -1,6 +1,11 @@
 {
 	"extends": "./tsconfig.json",
-	"include": ["vite.config.ts", "react-router.config.ts", "./test/**/*"],
+	"include": [
+		"vite.config.ts",
+		"vitest.config.ts",
+		"react-router.config.ts",
+		"./test/**/*"
+	],
 	"compilerOptions": {
 		"composite": true,
 		"strict": true,

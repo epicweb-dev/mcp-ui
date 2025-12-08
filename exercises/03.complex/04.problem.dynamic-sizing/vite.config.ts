@@ -28,7 +28,4 @@ export default defineConfig({
 		tsconfigPaths(),
 		devtoolsJson(),
 	],
-	test: {
-		globalSetup: './test/globalSetup.ts',
-	},
 })
