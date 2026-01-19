@@ -16,3 +16,5 @@ data.db
 dist
 .wrangler
 **/.react-router/**
+
+saved-playgrounds
