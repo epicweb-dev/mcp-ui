@@ -6,7 +6,20 @@
 - The biggest shift for this workshop is not in core MCP alone; it is the formalization of **MCP Apps** as an official extension (`SEP-1865`, stable `2026-01-26`), which supersedes the old "MCP-UI as de facto protocol" framing.
 - Current workshop materials still teach several legacy MCP-UI patterns (`externalUrl`, `remoteDom`, custom `postMessage` message types, embedded UI resources as primary pattern, `x-origin` header workaround).
 - The workshop repo is pinned to `@modelcontextprotocol/sdk@^1.24.3` and `@mcp-ui/server@^5.16.1`; current SDK/recommended ecosystem has moved forward (`typescript-sdk v1.27.1`, `@modelcontextprotocol/ext-apps v1.1.2`, `@mcp-ui/* v6.x`).
-- Recommendation: rename this workshop to an **MCP Apps**-first workshop, keep MCP-UI as a transitional utility layer, and redistribute some spec changes to the other three workshops in the series.
+- Recommendation: rename this workshop to an **MCP Apps** workshop, teach the **current spec as-is**, and intentionally **do not preserve backward compatibility teaching paths**.
+
+---
+
+## Instructional stance for this refresh (explicit)
+
+This update should follow a strict policy:
+
+1. **No backward compatibility requirement in curriculum design.**
+2. Teach the current stable standards directly:
+   - Core MCP spec: `2025-11-25`
+   - MCP Apps extension: `2026-01-26`
+3. Remove legacy-first teaching narratives (`remoteDom`, `externalUrl`, custom `ui-lifecycle-*` protocol flow) from the main learning path.
+4. If migration/legacy compatibility is documented at all, keep it as short, non-core reference material, not a required exercise path.
 
 ---
 
@@ -112,6 +125,41 @@ This is coherent for legacy MCP-UI, but no longer aligned to the official MCP Ap
 
 ---
 
+## Draft-spec impact if draft became stable a week after launch
+
+If you refresh now and a draft lands as stable shortly after, the likely impact areas are:
+
+### Core MCP draft (`modelcontextprotocol` draft changelog)
+
+1. **`extensions` in capabilities**
+   - Impact: medium.
+   - Why: MCP Apps capability negotiation is already extension-oriented; this is mostly a formalization pressure on how you explain and type capabilities.
+2. **Trace context keys in `_meta` (`traceparent`, `tracestate`, `baggage`)**
+   - Impact: low-to-medium.
+   - Why: mainly affects observability guidance, middleware, and advanced diagnostics examples.
+
+### MCP Apps draft (`ext-apps` draft vs `2026-01-26` stable text)
+
+1. **`ui/download-file` appears in draft**
+   - Impact: high for curriculum freshness.
+   - Why: this is a user-visible capability for common export flows (CSV, image, PDF) and likely to be expected quickly in production examples.
+2. **Host capability signaling for download support**
+   - Impact: medium.
+   - Why: examples should demonstrate capability checks and graceful behavior when unsupported.
+3. **Ongoing experimental feature hooks**
+   - Impact: low-to-medium.
+   - Why: generally additive; can be handled as optional “watchlist” content.
+
+### Practical risk profile
+
+- If you teach stable-only today with no draft awareness:
+  - You will still be correct.
+  - But you may look stale quickly on app-host interaction APIs (`ui/download-file`-style features).
+- Best mitigation:
+  - include one “draft watch” slot in your updated outline, but keep the main flow stable-spec accurate.
+
+---
+
 ## MCP Apps transition: what changed relative to this workshop
 
 MCP Apps is now an official extension track with stable spec (`2026-01-26`) and active SDK releases (`ext-apps` >= 1.0, latest 1.1.2).
@@ -144,7 +192,7 @@ MCP Apps is now an official extension track with stable spec (`2026-01-26`) and 
 
 - MCP-UI still has value as a practical SDK layer and compatibility adapter.
 - `mcp-ui` v6 release notes explicitly indicate migration to MCP Apps and breaking changes ("removed discarded content types, changed mimetype, updated docs, etc.").
-- This supports a strategy of teaching **MCP Apps concepts first**, while using MCP-UI selectively as an adapter/tooling utility.
+- For this refresh, that means: use MCP-UI only where it helps implementation ergonomics, but do **not** teach legacy compatibility as a first-class learning objective.
 
 ---
 
@@ -214,10 +262,10 @@ Below are the notable changes from `1.19.0` -> `v1.27.1` that should influence w
 3. `x-origin` request-header workaround -> modern request context (`RequestInfo.url`) and cleaner server design.
 4. "MCP UI supports these content types" -> "MCP Apps MVP baseline is HTML profile; additional formats are extension/future/adapter territory."
 
-## Removed / de-emphasized
+## Removed from main curriculum
 
-1. `remoteDom` as a core, first-class protocol concept (keep as legacy/optional adapter module if desired).
-2. `externalUrl` as baseline pattern in the official-spec storyline (can be taught as practical compatibility pattern, not MVP core).
+1. `remoteDom` as a core protocol concept.
+2. `externalUrl` as baseline in the main official-spec storyline.
 3. Legacy `ui-lifecycle-*` and `ui-message-response` as the primary protocol mental model.
 
 ---
@@ -266,13 +314,6 @@ Below are the notable changes from `1.19.0` -> `v1.27.1` that should influence w
 - View state/model-context updates.
 - `requestDisplayMode`, `ui/download-file`, and practical host capability checks.
 
-### Optional appendix track
-
-- "Legacy MCP-UI compatibility mode"
-  - `@mcp-ui/server` adapter mode
-  - bridging old `ui-lifecycle-*` messaging to MCP Apps hosts
-  - migration checklist from legacy widgets
-
 ---
 
 ## Cross-workshop distribution recommendations (4-workshop series)
@@ -313,7 +354,7 @@ Primary recommendation:
 
 Alternative:
 
-- **"MCP Apps (with MCP-UI utilities)"** for transition period messaging.
+- **"MCP Apps: Production UI for MCP Servers"**
 
 ---
 
@@ -321,19 +362,18 @@ Alternative:
 
 ## Phase 1 (immediate planning + skeleton)
 
-1. Rename workshop metadata/title/subtitle.
-2. Update intro/outro and module titles to MCP Apps terminology.
-3. Decide canonical code path:
-   - A) `@modelcontextprotocol/ext-apps` native APIs
-   - B) MCP-UI adapter-first with explicit migration framing
-4. Upgrade dependency targets and baseline host support matrix.
+1. Lock policy: no backward-compatibility teaching requirements.
+2. Rename workshop metadata/title/subtitle.
+3. Update intro/outro and module titles to MCP Apps terminology.
+4. Standardize implementation path on `@modelcontextprotocol/ext-apps` + current MCP SDK.
+5. Upgrade dependency targets and baseline host support matrix.
 
 ## Phase 2 (content + exercise rewrite)
 
 1. Rewrite exercises 1-5 around MCP Apps model above.
-2. Add one "legacy interoperability" optional lesson.
-3. Replace custom message diagrams with JSON-RPC method flows.
-4. Remove `x-origin` workaround teaching in favor of current request context patterns.
+2. Replace custom message diagrams with JSON-RPC method flows.
+3. Remove `x-origin` workaround teaching in favor of current request context patterns.
+4. Add one short draft-watch module note (`ui/download-file`, capability negotiation updates) so near-term spec stabilization does not force a full re-record.
 
 ## Phase 3 (recording + QA)
 
@@ -346,12 +386,40 @@ Alternative:
 
 ---
 
-## Open decisions to resolve before implementation
+## Recommended actions to take (clear, prioritized)
 
-1. Do you want the workshop to be strict-spec MVP only (HTML profile), or include practical non-MVP patterns as optional modules?
-2. Do you want to standardize on ext-apps APIs in exercises, or keep MCP-UI APIs and explicitly teach the adapter bridge?
-3. Which host(s) should be the canonical demo environment for recordings and student debugging?
-4. Should `ui/download-file` and display-mode requests be required content or bonus content?
+## P0 — decide and execute immediately
+
+1. **Adopt and publish policy:** this workshop refresh teaches current spec only, with no backward-compatibility curriculum requirements.
+2. **Rename the workshop now** to MCP Apps terminology across title, intro, learning outcomes, and module names.
+3. **Upgrade implementation baseline**:
+   - `@modelcontextprotocol/ext-apps` (current stable line)
+   - `@modelcontextprotocol/sdk` (current stable line, not `^1.24.3`)
+4. **Rewrite all core exercises** to:
+   - predeclared resources + `_meta.ui.resourceUri`
+   - JSON-RPC MCP Apps communication patterns
+   - capability-gated behavior for non-supporting hosts
+5. **Remove legacy-first mechanics** from required path:
+   - custom `ui-lifecycle-*` protocol flow as primary pattern
+   - `externalUrl`/`remoteDom` as core protocol concepts
+   - `x-origin` custom-header workaround
+
+## P1 — make the refresh resilient to near-term draft stabilization
+
+1. Add a short “draft watch” segment in the workshop notes covering:
+   - core draft: `extensions` capability field formalization and trace `_meta` keys
+   - apps draft: `ui/download-file` and host capability checks
+2. Include one optional exercise/task for host-mediated downloads so you are ready if `ui/download-file` is in the next stable cut.
+3. Add a pre-publish checklist item: run a 30-minute spec delta pass against draft changelogs within 48 hours of recording/publishing.
+
+## P2 — recording and launch quality bar
+
+1. Re-record all videos against the new MCP Apps APIs and terminology.
+2. Validate in at least two canonical hosts (recommend: Claude + VS Code Copilot) plus one secondary host.
+3. Ship release notes for existing students that explicitly state:
+   - old MCP-UI protocol path removed from core curriculum
+   - new MCP Apps-first path and prerequisites
+   - where to find migration guidance if they are upgrading legacy code
 
 ---
 
@@ -361,5 +429,4 @@ For this workshop specifically, the biggest required shift is:
 
 - **from "MCP-UI protocol workshop"**
 - **to "MCP Apps official extension workshop"**
-
-while preserving MCP-UI as a transitional utility for compatibility where useful.
+- with a **current-spec-only** teaching strategy and explicit draft-watch safeguards.
