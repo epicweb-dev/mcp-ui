@@ -270,6 +270,60 @@ Below are the notable changes from `1.19.0` -> `v1.27.1` that should influence w
 
 ---
 
+## BREAKING CHANGES (requires re-recording)
+
+Definition used in this section:
+
+- A change is **breaking for workshop recordings** if it changes exercise solution code, step diffs, exercise structure, or runnable implementation patterns.
+- Instruction-only/doc-only edits are **not** included.
+
+### Breaking change inventory
+
+1. **Exercise 01 (`simple/raw-html`) solution pattern must change**
+   - Current solution path: `createUIResource({ content: { type: 'rawHtml' } })` returned directly from tool calls.
+   - New required path: MCP Apps-first registration flow with predeclared resource + `_meta.ui.resourceUri` linkage (`registerAppTool` / `registerAppResource` style).
+   - Why this forces rerecord: code and diff walkthroughs change at the first exercise.
+
+2. **Exercise 02 (`consistent/remote-dom`) is no longer valid as a core spec module**
+   - Current solution path teaches `remoteDom` content type and imperative host component creation.
+   - Official MCP Apps core path is HTML profile with JSON-RPC app runtime; `remoteDom` is not a core spec concept to teach in the main track.
+   - Why this forces rerecord: this exercise is either removed or fully replaced.
+
+3. **Exercise 03 (`complex/iframe`) step solutions must be rewritten**
+   - Current path includes `externalUrl`, custom origin propagation (`x-origin` header), and iframe lifecycle messaging.
+   - New path requires MCP Apps resource linkage + app runtime initialization + host-managed communication patterns.
+   - Why this forces rerecord: step-level solution code and architecture both change.
+
+4. **Exercise 04 (`interactive`) messaging utilities must be replaced**
+   - Current path teaches custom postMessage protocol helpers (`sendMcpMessage`, `sendLinkMcpMessage`, `ui-message-response` correlation).
+   - New path should use MCP Apps JSON-RPC method model and App runtime APIs (`tools/call`, `ui/message`, `ui/open-link`, etc.).
+   - Why this forces rerecord: every step solution in this module changes.
+
+5. **Exercise 05 (`advanced`) render-data and advanced interaction flow must change**
+   - Current path uses legacy `uiMetadata` + `ui-lifecycle-iframe-render-data` expectations.
+   - New path should teach MCP Apps host notifications/context flow and modern capability-aware advanced features.
+   - Why this forces rerecord: both advanced exercise solutions need code changes.
+
+6. **Exercise structure itself changes (removed/replaced/added modules)**
+   - Remove or repurpose Remote DOM-first module.
+   - Add MCP Apps capability negotiation + fallback module content.
+   - Add/require modern security metadata patterns (CSP/permissions/domain) in runnable exercise code.
+   - Why this forces rerecord: sequence, checkpoints, and expected outputs change.
+
+7. **Dependency baseline upgrades change runnable solutions**
+   - Move off `@modelcontextprotocol/sdk@^1.24.3` and old MCP-UI-centric baseline to current MCP Apps-compatible SDK stack.
+   - Why this forces rerecord: code scaffolding, imports, and implementation APIs in recorded solutions change.
+
+### Net result
+
+If we adopt a strict “teach current spec as-is, no backward compatibility path” policy, this is a **full workshop rerecord**, not a patch release:
+
+- Multiple exercises are removed/replaced.
+- Most (likely all) exercise step solutions change.
+- Existing solution videos become structurally inaccurate for the refreshed codebase.
+
+---
+
 ## New concepts not currently represented (or underrepresented)
 
 1. UI extension identifier and extension capability negotiation model.
