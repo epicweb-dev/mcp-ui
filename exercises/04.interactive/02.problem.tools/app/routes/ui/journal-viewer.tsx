@@ -8,6 +8,10 @@ import { useMcpUiInit, sendMcpMessage } from '#app/utils/mcp.ts'
 import { useDoubleCheck } from '#app/utils/misc.ts'
 import { type Route } from './+types/journal-viewer.tsx'
 
+function getErrorMessage(error: unknown) {
+	return error instanceof Error ? error.message : String(error)
+}
+
 export async function loader({ context }: Route.LoaderArgs) {
 	const entries = await context.db.getEntries()
 	return { entries }
@@ -137,7 +141,7 @@ function XPostLinkError({ error, resetErrorBoundary }: FallbackProps) {
 	return (
 		<div className="bg-destructive/10 border-destructive/20 text-destructive rounded-lg border p-3">
 			<p className="text-sm font-medium">Failed to post on X</p>
-			<p className="text-destructive/80 text-xs">{error.message}</p>
+			<p className="text-destructive/80 text-xs">{getErrorMessage(error)}</p>
 			<button
 				onClick={resetErrorBoundary}
 				className="text-destructive mt-2 cursor-pointer text-xs hover:underline"
@@ -197,7 +201,7 @@ function DeleteEntryError({ error, resetErrorBoundary }: FallbackProps) {
 	return (
 		<div className="bg-destructive/10 border-destructive/20 text-destructive rounded-lg border p-3">
 			<p className="text-sm font-medium">Failed to delete entry</p>
-			<p className="text-destructive/80 text-xs">{error.message}</p>
+			<p className="text-destructive/80 text-xs">{getErrorMessage(error)}</p>
 			<button
 				onClick={resetErrorBoundary}
 				className="text-destructive mt-2 cursor-pointer text-xs hover:underline"
@@ -258,7 +262,7 @@ function ViewEntryError({ error, resetErrorBoundary }: FallbackProps) {
 	return (
 		<div className="bg-destructive/10 border-destructive/20 text-destructive rounded-lg border p-3">
 			<p className="text-sm font-medium">Failed to view entry</p>
-			<p className="text-destructive/80 text-xs">{error.message}</p>
+			<p className="text-destructive/80 text-xs">{getErrorMessage(error)}</p>
 			<button
 				onClick={resetErrorBoundary}
 				className="text-destructive mt-2 cursor-pointer text-xs hover:underline"
@@ -316,7 +320,7 @@ function SummarizeEntryError({ error, resetErrorBoundary }: FallbackProps) {
 	return (
 		<div className="bg-destructive/10 border-destructive/20 text-destructive rounded-lg border p-3">
 			<p className="text-sm font-medium">Failed to summarize entry</p>
-			<p className="text-destructive/80 text-xs">{error.message}</p>
+			<p className="text-destructive/80 text-xs">{getErrorMessage(error)}</p>
 			<button
 				onClick={resetErrorBoundary}
 				className="text-destructive mt-2 cursor-pointer text-xs hover:underline"

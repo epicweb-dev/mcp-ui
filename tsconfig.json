@@ -11,12 +11,6 @@
       "path": "exercises/01.simple/01.solution.raw-html"
     },
     {
-      "path": "exercises/02.consistent/01.problem.remote-dom"
-    },
-    {
-      "path": "exercises/02.consistent/01.solution.remote-dom"
-    },
-    {
       "path": "exercises/03.complex/01.problem.iframe"
     },
     {
@@ -70,5 +64,14 @@
     {
       "path": "exercises/05.advanced/02.solution.render-data"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0",
+    "lib": [
+      "ESNext"
+    ],
+    "types": [
+      "node"
+    ]
+  }
 }

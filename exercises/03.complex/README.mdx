@@ -2,7 +2,7 @@
 
 <EpicVideo url="https://www.epicai.pro/workshops/mcp-ui-aubv9/intro-to-complex-2lxda" />
 
-While raw HTML and Remote DOM provide great ways to create UI components, they have limitations when it comes to building truly complex, interactive applications. Raw HTML requires you to write all styling from scratch, and Remote DOM, while consistent, can be cumbersome for complex layouts and interactions. For sophisticated applications that need rich functionality, responsive design, and complex state management, you need a more powerful approach.
+While raw HTML is a great way to create simple UI components, it has limitations when it comes to building truly complex, interactive applications. Raw HTML requires you to write all styling from scratch and can be cumbersome for complex layouts and interactions. For sophisticated applications that need rich functionality, responsive design, and complex state management, you need a more powerful approach.
 
 The solution is **iframe-based UI components** - embedding full web applications (though normally just widgets rather than fully routed solutions) as UI resources in MCP. This approach lets you leverage entire frameworks like React, Vue, or any other web technology to create rich, interactive interfaces that can communicate with the host application through a standardized protocol.
 
@@ -31,7 +31,7 @@ const resource = createUIResource({
 	the iframe, giving the host application hints about optimal dimensions.
 </callout-info>
 
-Here's how this works in practice. When an AI assistant needs to show a complex journal viewer with interactive features like deleting entries, viewing details, and summarizing content, instead of trying to build this with raw HTML or Remote DOM, it can embed a full React application that handles all the complexity.
+Here's how this works in practice. When an AI assistant needs to show a complex journal viewer with interactive features like deleting entries, viewing details, and summarizing content, instead of trying to build this with raw HTML, it can embed a full React application that handles all the complexity.
 
 The iframe approach provides several key advantages:
 
@@ -96,15 +96,15 @@ The key difference from previous approaches is that instead of creating simple U
 
 <callout-success>
 	It's important to note that you **can** perform interactive operations with
-	the rawHtml or remoteDom contet types, but maintaining that can be cumbersome
-	and error prone.
+	the rawHtml content type, but maintaining that can be cumbersome and error
+	prone.
 </callout-success>
 
 <callout-warning>
-	Iframe-based UI components are more complex to implement than raw HTML or
-	Remote DOM, but they provide the flexibility and power needed for
-	sophisticated applications. The communication protocol adds complexity but
-	enables rich interactions between the iframe and host application.
+	Iframe-based UI components are more complex to implement than raw HTML, but
+	they provide the flexibility and power needed for sophisticated applications.
+	The communication protocol adds complexity but enables rich interactions
+	between the iframe and host application.
 </callout-warning>
 
 - 📜 [MCP UI Embeddable UI Documentation](https://mcpui.dev/guide/embeddable-ui)

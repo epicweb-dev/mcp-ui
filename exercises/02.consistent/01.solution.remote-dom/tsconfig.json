@@ -1,9 +1,0 @@
-{
-	"extends": ["@epic-web/config/typescript"],
-	"include": [
-		"types/**/*.d.ts",
-		"worker/**/*.ts",
-		"test/**/*.ts",
-		"vitest.config.ts"
-	]
-}

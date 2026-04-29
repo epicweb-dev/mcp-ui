@@ -10,19 +10,15 @@ Hooray! You made it through the whole workshop! 👏
 
 Learned the core pattern: use `createUIResource` to return a `rawHtml` UI resource instead of plain text. You delivered styled, visual output (e.g. info cards) and saw how a `uri` + content type package UI for compliant clients.
 
-### 2. Consistent - Remote DOM
-
-Moved from hand-authored HTML/CSS to a component-driven, host-consistent layer (Shopify's Remote DOM). You gained: design system consistency, built-in interactivity, less styling drift, and safer structured creation of elements (`ui-text`, `ui-button`, etc.).
-
-### 3. Complex - Iframe / Embedded Apps
+### 2. Complex - Iframe / Embedded Apps
 
 Escalated to full application surfaces using the `externalUrl` content type. Added preferred sizing metadata, understood lifecycle messages, and decomposed complexity into an independently deployed (or locally served) app. Sub-steps introduced readiness, fixed sizing, and dynamic resizing strategies.
 
-### 4. Interactive - Communication Protocol
+### 3. Interactive - Communication Protocol
 
 Empowered iframes to participate in workflows: sending `link`, `tool`, and `prompt` messages via `postMessage`. You handled message IDs, async responses, and error feedback—turning passive UI into an active collaborator with the host + MCP toolchain.
 
-### 5. Advanced - Tool Results & Render Data
+### 4. Advanced - Tool Results & Render Data
 
 Closed the loop on data richness and performance:
 
@@ -34,7 +30,6 @@ Closed the loop on data richness and performance:
 Across the progression you learned how to choose the right abstraction:
 
 - Raw HTML → quickest path to visual output
-- Remote DOM → consistency & built-in components
 - Iframe Apps → full framework power & complex interaction
 - Protocol Messaging → rich, bi-directional intent + action
 - Structured Results & Render Data → reliability, safety, and performance
@@ -45,7 +40,6 @@ You're well equipped to ship production-grade MCP UI experiences. Consider:
 
 - Converting existing plain-text MCP tools into visual UI resources
 - Adding schema validation everywhere a boundary exists (tool inputs/outputs, render data)
-- Building a reusable internal component library for Remote DOM use
 - Layering authorization & audit logging around iframe messages
 - Contributing examples or docs back to the MCP UI ecosystem
 

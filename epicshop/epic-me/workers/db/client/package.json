@@ -16,5 +16,8 @@
   },
   "scripts": {
     "build": "tsc index.ts --declaration --skipLibCheck --module esnext --moduleResolution node --outDir dist"
+  },
+  "dependencies": {
+    "zod": "^4.4.1"
   }
 }
