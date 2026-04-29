@@ -1,23 +1,19 @@
 {
-  "extends": "./tsconfig.json",
-  "include": [
-    "vite.config.ts",
-    "vitest.config.ts",
-    "react-router.config.ts",
-    "./test/**/*"
-  ],
-  "compilerOptions": {
-    "composite": true,
-    "strict": true,
-    "types": [
-      "node"
-    ],
-    "lib": [
-      "ES2022"
-    ],
-    "target": "ES2022",
-    "module": "ES2022",
-    "moduleResolution": "bundler",
-    "ignoreDeprecations": "6.0"
-  }
+	"extends": "./tsconfig.json",
+	"include": [
+		"vite.config.ts",
+		"vitest.config.ts",
+		"react-router.config.ts",
+		"./test/**/*"
+	],
+	"compilerOptions": {
+		"composite": true,
+		"strict": true,
+		"types": ["node"],
+		"lib": ["ES2022"],
+		"target": "ES2022",
+		"module": "ES2022",
+		"moduleResolution": "bundler",
+		"ignoreDeprecations": "6.0"
+	}
 }

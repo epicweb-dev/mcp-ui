@@ -1,77 +1,71 @@
 {
-  "files": [],
-  "exclude": [
-    "node_modules"
-  ],
-  "references": [
-    {
-      "path": "exercises/01.simple/01.problem.raw-html"
-    },
-    {
-      "path": "exercises/01.simple/01.solution.raw-html"
-    },
-    {
-      "path": "exercises/03.complex/01.problem.iframe"
-    },
-    {
-      "path": "exercises/03.complex/01.solution.iframe"
-    },
-    {
-      "path": "exercises/03.complex/02.problem.ready"
-    },
-    {
-      "path": "exercises/03.complex/02.solution.ready"
-    },
-    {
-      "path": "exercises/03.complex/03.problem.sizing"
-    },
-    {
-      "path": "exercises/03.complex/03.solution.sizing"
-    },
-    {
-      "path": "exercises/03.complex/04.problem.dynamic-sizing"
-    },
-    {
-      "path": "exercises/03.complex/04.solution.dynamic-sizing"
-    },
-    {
-      "path": "exercises/04.interactive/01.problem.links"
-    },
-    {
-      "path": "exercises/04.interactive/01.solution.links"
-    },
-    {
-      "path": "exercises/04.interactive/02.problem.tools"
-    },
-    {
-      "path": "exercises/04.interactive/02.solution.tools"
-    },
-    {
-      "path": "exercises/04.interactive/03.problem.prompts"
-    },
-    {
-      "path": "exercises/04.interactive/03.solution.prompts"
-    },
-    {
-      "path": "exercises/05.advanced/01.problem.tool-results"
-    },
-    {
-      "path": "exercises/05.advanced/01.solution.tool-results"
-    },
-    {
-      "path": "exercises/05.advanced/02.problem.render-data"
-    },
-    {
-      "path": "exercises/05.advanced/02.solution.render-data"
-    }
-  ],
-  "compilerOptions": {
-    "ignoreDeprecations": "6.0",
-    "lib": [
-      "ESNext"
-    ],
-    "types": [
-      "node"
-    ]
-  }
+	"files": [],
+	"exclude": ["node_modules"],
+	"references": [
+		{
+			"path": "exercises/01.simple/01.problem.raw-html"
+		},
+		{
+			"path": "exercises/01.simple/01.solution.raw-html"
+		},
+		{
+			"path": "exercises/03.complex/01.problem.iframe"
+		},
+		{
+			"path": "exercises/03.complex/01.solution.iframe"
+		},
+		{
+			"path": "exercises/03.complex/02.problem.ready"
+		},
+		{
+			"path": "exercises/03.complex/02.solution.ready"
+		},
+		{
+			"path": "exercises/03.complex/03.problem.sizing"
+		},
+		{
+			"path": "exercises/03.complex/03.solution.sizing"
+		},
+		{
+			"path": "exercises/03.complex/04.problem.dynamic-sizing"
+		},
+		{
+			"path": "exercises/03.complex/04.solution.dynamic-sizing"
+		},
+		{
+			"path": "exercises/04.interactive/01.problem.links"
+		},
+		{
+			"path": "exercises/04.interactive/01.solution.links"
+		},
+		{
+			"path": "exercises/04.interactive/02.problem.tools"
+		},
+		{
+			"path": "exercises/04.interactive/02.solution.tools"
+		},
+		{
+			"path": "exercises/04.interactive/03.problem.prompts"
+		},
+		{
+			"path": "exercises/04.interactive/03.solution.prompts"
+		},
+		{
+			"path": "exercises/05.advanced/01.problem.tool-results"
+		},
+		{
+			"path": "exercises/05.advanced/01.solution.tool-results"
+		},
+		{
+			"path": "exercises/05.advanced/02.problem.render-data"
+		},
+		{
+			"path": "exercises/05.advanced/02.solution.render-data"
+		}
+	],
+	"compilerOptions": {
+		"ignoreDeprecations": "6.0",
+		"lib": ["ESNext"],
+		"types": ["node"]
+	}
 }
