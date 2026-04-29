@@ -8,7 +8,7 @@ import { useState, useRef, useEffect, useCallback, type RefObject } from 'react'
 import { Form, isRouteErrorResponse } from 'react-router'
 import { type Route } from './+types/mcp-ui-renderer'
 
-export function meta({}: Route.MetaArgs) {
+export function meta() {
 	return [
 		{ title: 'MCP-UI Resource Renderer - Epic Me' },
 		{
