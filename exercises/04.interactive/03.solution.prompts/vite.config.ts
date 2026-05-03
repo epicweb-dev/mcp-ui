@@ -11,6 +11,15 @@ export default defineConfig({
 	server: {
 		port: process.env.PORT ? Number(process.env.PORT) : undefined,
 	},
+	ssr: {
+		optimizeDeps: {
+			include: [
+				'@modelcontextprotocol/sdk/server/completable.js',
+				'@modelcontextprotocol/sdk/server/mcp.js',
+				'@modelcontextprotocol/sdk/types.js',
+			],
+		},
+	},
 	plugins: [
 		{
 			name: 'strip-typegen-imports',
