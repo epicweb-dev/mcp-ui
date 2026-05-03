@@ -4,7 +4,14 @@ import {
 	type UIActionResult,
 	isUIResource,
 } from '@mcp-ui/client'
-import { useState, useRef, useEffect, useCallback, type RefObject } from 'react'
+import {
+	useState,
+	useRef,
+	useEffect,
+	useCallback,
+	useLayoutEffect,
+	type RefObject,
+} from 'react'
 import { Form, isRouteErrorResponse } from 'react-router'
 import { type Route } from './+types/mcp-ui-renderer'
 
@@ -153,7 +160,7 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 	}, [messages, isAtBottom, scrollToBottom])
 
 	// Listen to all iframe messages
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const handleMessage = (event: MessageEvent) => {
 			// Only handle messages from our iframe
 			if (
