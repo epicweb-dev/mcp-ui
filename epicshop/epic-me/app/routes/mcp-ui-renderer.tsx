@@ -254,7 +254,9 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 			: undefined
 
 		const fullResult = JSON.stringify(result, null, 2)
-		addMessage('received', fullResult, messageId)
+		if (!existingPending) {
+			addMessage('received', fullResult, messageId)
+		}
 
 		// Return a promise that will be resolved when user submits response
 		return new Promise((resolve, reject) => {

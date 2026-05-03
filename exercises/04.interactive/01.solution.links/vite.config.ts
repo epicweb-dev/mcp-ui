@@ -11,6 +11,9 @@ export default defineConfig({
 	server: {
 		port: process.env.PORT ? Number(process.env.PORT) : undefined,
 	},
+	optimizeDeps: {
+		include: ['react-error-boundary'],
+	},
 	ssr: {
 		optimizeDeps: {
 			include: [
