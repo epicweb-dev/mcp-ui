@@ -254,9 +254,7 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 			: undefined
 
 		const fullResult = JSON.stringify(result, null, 2)
-		if (!existingPending) {
-			addMessage('received', fullResult, messageId)
-		}
+		addMessage('received', fullResult, messageId)
 
 		// Return a promise that will be resolved when user submits response
 		return new Promise((resolve, reject) => {
@@ -316,6 +314,13 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 		return messageId && pendingPromisesRef.current.has(messageId)
 	}
 
+	const handleIframeLoad = () => {
+		addMessage(
+			'internal',
+			JSON.stringify({ type: 'ui-lifecycle-iframe-ready' }, null, 2),
+		)
+	}
+
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8 dark:from-gray-900 dark:to-gray-800">
 			<div className="mx-auto max-w-6xl">
@@ -366,6 +371,7 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 												ref: iframeRef as RefObject<HTMLIFrameElement>,
 												title: `Resource content: ${content.resource.uri}`,
 												'aria-label': 'Interactive resource renderer',
+												onLoad: handleIframeLoad,
 											},
 											autoResizeIframe: true,
 										}}
