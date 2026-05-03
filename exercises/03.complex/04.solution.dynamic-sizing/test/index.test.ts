@@ -103,4 +103,5 @@ async function handleViteDeps(page: Page) {
 				// good...
 			},
 		)
+	await new Promise((resolve) => setTimeout(resolve, 1_000))
 }
