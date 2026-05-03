@@ -12,7 +12,7 @@ export default defineConfig({
 		port: process.env.PORT ? Number(process.env.PORT) : undefined,
 	},
 	optimizeDeps: {
-		include: ['react-error-boundary'],
+		include: ['react-error-boundary', 'zod'],
 	},
 	ssr: {
 		optimizeDeps: {

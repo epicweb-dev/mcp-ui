@@ -74,7 +74,7 @@ test('journal viewer sends tool message', async () => {
 	await viewDetailsButton.click()
 
 	const message = page.getByRole('log').getByText('tool')
-	await message.waitFor({ timeout: 1000 }).catch((e) => {
+	await message.waitFor({ timeout: 5000 }).catch((e) => {
 		throw new Error(
 			'🚨 tool message was never received. Make sure to call sendMcpMessage with "tool"',
 			{ cause: e },

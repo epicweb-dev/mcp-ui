@@ -204,7 +204,6 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 					}
 
 					if (isLifecycleMessage) {
-						addMessage('internal', messageContent, messageData.messageId)
 						return
 					}
 
