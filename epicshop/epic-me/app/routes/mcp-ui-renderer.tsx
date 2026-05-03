@@ -213,8 +213,9 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 			}
 		}
 
-		window.addEventListener('message', handleMessage)
-		return () => window.removeEventListener('message', handleMessage)
+		window.addEventListener('message', handleMessage, { capture: true })
+		return () =>
+			window.removeEventListener('message', handleMessage, { capture: true })
 	}, [])
 
 	const addMessage = (
