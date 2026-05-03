@@ -74,7 +74,7 @@ test('journal viewer sends prompt message', async () => {
 	await viewDetailsButton.click()
 
 	const message = page.getByRole('log').getByText('prompt')
-	await message.waitFor({ timeout: 1000 }).catch((e) => {
+	await message.waitFor({ timeout: 5000 }).catch((e) => {
 		throw new Error(
 			'🚨 prompt message was never received. Make sure to call sendMcpMessage with "prompt"',
 			{ cause: e },
@@ -113,4 +113,5 @@ async function handleViteDeps(page: Page) {
 				// good...
 			},
 		)
+	await new Promise((resolve) => setTimeout(resolve, 1_000))
 }

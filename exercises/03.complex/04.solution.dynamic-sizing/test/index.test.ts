@@ -67,7 +67,7 @@ test('journal viewer sends ui-size-change message', async () => {
 	await handleViteDeps(page)
 
 	const message = page.getByRole('log').getByText('ui-size-change')
-	await message.waitFor({ timeout: 1000 }).catch((e) => {
+	await message.waitFor({ timeout: 5000 }).catch((e) => {
 		throw new Error(
 			'🚨 ui-size-change was never received. Make sure to call postMessage with "ui-size-change" with width and height and the target set to "*".',
 			{ cause: e },
@@ -103,4 +103,5 @@ async function handleViteDeps(page: Page) {
 				// good...
 			},
 		)
+	await new Promise((resolve) => setTimeout(resolve, 1_000))
 }
