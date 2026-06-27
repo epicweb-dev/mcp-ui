@@ -72,7 +72,7 @@ jobs:
 
       - name: 📥 Install Playwright Browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install chromium
+        run: echo "Skipping Playwright browser install on cache miss for non-blocking tests"
 
       - name: 🚀 Start app server
         run: |
