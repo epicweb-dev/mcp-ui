@@ -72,7 +72,7 @@ jobs:
 
       - name: 📥 Install Playwright Browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install chromium --with-deps
+        run: npx playwright install chromium
 
       - name: 🚀 Start app server
         run: |
