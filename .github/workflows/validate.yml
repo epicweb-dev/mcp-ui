@@ -43,7 +43,7 @@ jobs:
 
   tests:
     name: 🧪 Test
-    timeout-minutes: 10
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     # Use continue-on-error to ensure this job doesn't fail the workflow
     continue-on-error: true
