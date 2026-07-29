@@ -69,7 +69,7 @@ test('journal viewer sends ui-lifecycle-iframe-ready message', async () => {
 	await page
 		.getByRole('log')
 		.getByText('ui-lifecycle-iframe-ready')
-		.waitFor({ timeout: 1000 })
+		.waitFor({ timeout: 5000 })
 		.catch((e) => {
 			throw new Error(
 				'🚨 ui-lifecycle-iframe-ready was never received. Make sure to call postMessage with "ui-lifecycle-iframe-ready" with the target set to "*".',

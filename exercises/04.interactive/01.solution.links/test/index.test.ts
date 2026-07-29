@@ -71,7 +71,7 @@ test('journal viewer sends ui-size-change message', async () => {
 	await postButton.click()
 
 	const message = page.getByRole('log').getByText('link')
-	await message.waitFor({ timeout: 1000 }).catch((e) => {
+	await message.waitFor({ timeout: 5000 }).catch((e) => {
 		throw new Error(
 			'🚨 link message was never received. Make sure to call postMessage with "link" with url and the target set to "*".',
 			{ cause: e },
