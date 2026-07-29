@@ -65,6 +65,10 @@ test('journal viewer sends ui-size-change message', async () => {
 	await page.goto(url.toString())
 
 	await handleViteDeps(page)
+	await page
+		.getByRole('log')
+		.getByText('ui-lifecycle-iframe-ready')
+		.waitFor({ timeout: 10_000 })
 
 	const iframe = page.frameLocator('iframe')
 	const postButton = iframe.getByRole('button', { name: 'Post' })
