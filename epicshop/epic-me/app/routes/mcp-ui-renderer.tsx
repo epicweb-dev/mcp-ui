@@ -4,7 +4,14 @@ import {
 	type UIActionResult,
 	isUIResource,
 } from '@mcp-ui/client'
-import { useState, useRef, useEffect, useCallback, type RefObject } from 'react'
+import {
+	useState,
+	useRef,
+	useEffect,
+	useCallback,
+	useLayoutEffect,
+	type RefObject,
+} from 'react'
 import { Form, isRouteErrorResponse } from 'react-router'
 import { type Route } from './+types/mcp-ui-renderer'
 
@@ -135,6 +142,16 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 	const iframeRef = useRef<HTMLIFrameElement>(null)
 	const [isErrorResponse, setIsErrorResponse] = useState<boolean>(false)
 
+	const sendResponseToIframe = (
+		messageId: string,
+		payload: { response?: unknown; error?: unknown },
+	) => {
+		iframeRef.current?.contentWindow?.postMessage(
+			{ type: 'ui-message-response', messageId, payload },
+			'*',
+		)
+	}
+
 	// Auto-scroll when new messages are added and user is at bottom
 	useEffect(() => {
 		if (isAtBottom) {
@@ -143,7 +160,7 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 	}, [messages, isAtBottom, scrollToBottom])
 
 	// Listen to all iframe messages
-	useEffect(() => {
+	useLayoutEffect(() => {
 		const handleMessage = (event: MessageEvent) => {
 			// Only handle messages from our iframe
 			if (
@@ -154,7 +171,6 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 					const messageData =
 						typeof event.data === 'string' ? JSON.parse(event.data) : event.data
 
-					// Check if this is a UI action message that would be handled by onUIAction
 					const isUIActionMessage =
 						messageData &&
 						typeof messageData === 'object' &&
@@ -163,18 +179,35 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 							messageData.type,
 						)
 
-					// Check if this is a lifecycle message that should be handled internally by UIResourceRenderer
 					const isLifecycleMessage =
 						messageData &&
 						typeof messageData === 'object' &&
 						messageData.type &&
 						messageData.type.startsWith('ui-lifecycle-')
 
-					// If it's not a UI action message and not a lifecycle message, display it as internal
-					if (!isUIActionMessage && !isLifecycleMessage) {
-						const messageContent = JSON.stringify(messageData, null, 2)
-						addMessage('internal', messageContent, messageData.messageId)
+					const messageContent = JSON.stringify(messageData, null, 2)
+
+					if (isUIActionMessage) {
+						const { messageId } = messageData
+						if (!messageId || !pendingPromisesRef.current.has(messageId)) {
+							addMessage('received', messageContent, messageId)
+						}
+
+						if (messageId && !pendingPromisesRef.current.has(messageId)) {
+							pendingPromisesRef.current.set(messageId, {
+								resolve: (response) =>
+									sendResponseToIframe(messageId, { response }),
+								reject: (error) => sendResponseToIframe(messageId, { error }),
+							})
+						}
+						return
 					}
+
+					if (isLifecycleMessage) {
+						return
+					}
+
+					addMessage('internal', messageContent, messageData.messageId)
 				} catch {
 					// If we can't parse the message, still display it as internal
 					const messageContent =
@@ -186,8 +219,9 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 			}
 		}
 
-		window.addEventListener('message', handleMessage)
-		return () => window.removeEventListener('message', handleMessage)
+		window.addEventListener('message', handleMessage, { capture: true })
+		return () =>
+			window.removeEventListener('message', handleMessage, { capture: true })
 	}, [])
 
 	const addMessage = (
@@ -214,14 +248,28 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 
 	const handleUIAction = async (result: UIActionResult) => {
 		const messageId = 'messageId' in result ? result.messageId : undefined
+		const existingPending = messageId
+			? pendingPromisesRef.current.get(messageId)
+			: undefined
 
 		const fullResult = JSON.stringify(result, null, 2)
-		addMessage('received', fullResult, messageId)
+		if (!existingPending) {
+			addMessage('received', fullResult, messageId)
+		}
 
 		// Return a promise that will be resolved when user submits response
 		return new Promise((resolve, reject) => {
 			if (messageId) {
-				pendingPromisesRef.current.set(messageId, { resolve, reject })
+				pendingPromisesRef.current.set(messageId, {
+					resolve: (value) => {
+						existingPending?.resolve(value)
+						resolve(value)
+					},
+					reject: (error) => {
+						existingPending?.reject(error)
+						reject(error)
+					},
+				})
 			}
 		})
 	}
@@ -265,6 +313,13 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 
 	const needsResponse = (messageId?: string) => {
 		return messageId && pendingPromisesRef.current.has(messageId)
+	}
+
+	const handleIframeLoad = () => {
+		addMessage(
+			'internal',
+			JSON.stringify({ type: 'ui-lifecycle-iframe-ready' }, null, 2),
+		)
 	}
 
 	return (
@@ -317,6 +372,7 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 												ref: iframeRef as RefObject<HTMLIFrameElement>,
 												title: `Resource content: ${content.resource.uri}`,
 												'aria-label': 'Interactive resource renderer',
+												onLoad: handleIframeLoad,
 											},
 											autoResizeIframe: true,
 										}}
