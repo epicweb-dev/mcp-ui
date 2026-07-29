@@ -83,7 +83,7 @@ jobs:
       - name: ⎔ Setup node
         uses: actions/setup-node@v4
         with:
-          node-version: 26
+          node-version: 22
 
       - name: 📦 Install dependencies
         run: npm ci
@@ -114,6 +114,31 @@ jobs:
         run: |
           set -euo pipefail
           if [ -f ./epicshop/test.js ]; then
+            npm run dev --silent --prefix ./epicshop/epic-me -- \
+              --clearScreen=false --strictPort &
+            app_server_pid=$!
+            trap 'kill "$app_server_pid" 2>/dev/null || true' EXIT
+
+            for attempt in {1..60}; do
+              if curl --fail --silent http://localhost:7787/healthcheck >/dev/null; then
+                break
+              fi
+              if ! kill -0 "$app_server_pid" 2>/dev/null; then
+                server_status=0
+                wait "$app_server_pid" || server_status=$?
+                if [ "$server_status" -eq 0 ]; then
+                  server_status=1
+                fi
+                echo "Epic Me app server exited before becoming ready (exit ${server_status})" >&2
+                exit "$server_status"
+              fi
+              if [ "$attempt" -eq 60 ]; then
+                echo "Timed out waiting for Epic Me app server" >&2
+                exit 1
+              fi
+              sleep 1
+            done
+
             node ./epicshop/test.js ..s
           else
             echo "No epicshop/test.js in this workshop; skipping solution-app test runner."
