@@ -9,6 +9,9 @@ const port = 7787
 
 export default defineConfig({
 	server: { port },
+	optimizeDeps: {
+		include: ['@epic-web/invariant', '@mcp-ui/client'],
+	},
 	plugins: [
 		{
 			name: 'log-server-start',
