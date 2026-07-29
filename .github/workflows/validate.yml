@@ -124,8 +124,13 @@ jobs:
                 break
               fi
               if ! kill -0 "$app_server_pid" 2>/dev/null; then
-                echo "Epic Me app server exited before becoming ready" >&2
-                wait "$app_server_pid"
+                server_status=0
+                wait "$app_server_pid" || server_status=$?
+                if [ "$server_status" -eq 0 ]; then
+                  server_status=1
+                fi
+                echo "Epic Me app server exited before becoming ready (exit ${server_status})" >&2
+                exit "$server_status"
               fi
               if [ "$attempt" -eq 60 ]; then
                 echo "Timed out waiting for Epic Me app server" >&2

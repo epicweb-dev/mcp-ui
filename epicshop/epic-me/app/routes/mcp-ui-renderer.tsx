@@ -141,6 +141,7 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 	const messageInputRef = useRef<HTMLTextAreaElement>(null)
 	const iframeRef = useRef<HTMLIFrameElement>(null)
 	const [isErrorResponse, setIsErrorResponse] = useState<boolean>(false)
+	const [isMessageListenerReady, setIsMessageListenerReady] = useState(false)
 
 	const sendResponseToIframe = (
 		messageId: string,
@@ -204,6 +205,7 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 					}
 
 					if (isLifecycleMessage) {
+						addMessage('internal', messageContent, messageData.messageId)
 						return
 					}
 
@@ -220,6 +222,7 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 		}
 
 		window.addEventListener('message', handleMessage, { capture: true })
+		setIsMessageListenerReady(true)
 		return () =>
 			window.removeEventListener('message', handleMessage, { capture: true })
 	}, [])
@@ -315,13 +318,6 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 		return messageId && pendingPromisesRef.current.has(messageId)
 	}
 
-	const handleIframeLoad = () => {
-		addMessage(
-			'internal',
-			JSON.stringify({ type: 'ui-lifecycle-iframe-ready' }, null, 2),
-		)
-	}
-
 	return (
 		<div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8 dark:from-gray-900 dark:to-gray-800">
 			<div className="mx-auto max-w-6xl">
@@ -358,25 +354,26 @@ export default function MCPRenderer({ loaderData }: Route.ComponentProps) {
 
 							{isUIResource(content) ? (
 								<div className="min-h-[600px] overflow-hidden rounded-lg border border-gray-200 dark:border-gray-700">
-									<UIResourceRenderer
-										resource={content.resource}
-										onUIAction={handleUIAction}
-										htmlProps={{
-											style: {
-												width: '100%',
-												height: '600px',
-												border: 'none',
-												borderRadius: '0.5rem',
-											},
-											iframeProps: {
-												ref: iframeRef as RefObject<HTMLIFrameElement>,
-												title: `Resource content: ${content.resource.uri}`,
-												'aria-label': 'Interactive resource renderer',
-												onLoad: handleIframeLoad,
-											},
-											autoResizeIframe: true,
-										}}
-									/>
+									{isMessageListenerReady ? (
+										<UIResourceRenderer
+											resource={content.resource}
+											onUIAction={handleUIAction}
+											htmlProps={{
+												style: {
+													width: '100%',
+													height: '600px',
+													border: 'none',
+													borderRadius: '0.5rem',
+												},
+												iframeProps: {
+													ref: iframeRef as RefObject<HTMLIFrameElement>,
+													title: `Resource content: ${content.resource.uri}`,
+													'aria-label': 'Interactive resource renderer',
+												},
+												autoResizeIframe: true,
+											}}
+										/>
+									) : null}
 								</div>
 							) : (
 								<div className="flex h-[600px] items-center justify-center rounded-lg border border-gray-200 bg-gray-50 dark:border-gray-700 dark:bg-gray-700">
